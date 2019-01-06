@@ -1,55 +1,78 @@
-#include "iostream"
-
+#include <iostream>
+ 
 using namespace std;
+ 
 int main()
 {
-	int n, m, a, b, line, k, l;
-	cout << "Entes size array: a, b ";
-	cin >> a;
-	cin >> b;
-	int **array = new int* [a];
-	for (int i = 0; i < a; i++)
-	{
-		array[i] = new int[i + 1];
-	}
-	for (int i = 0; i < a; i++)
-	{
-		cout << "Enter number ";
-		cout << i + 1;
-		cout << ": ";
-		for (int j = 0; j < i+1; j++)
-		{
-			cin >> array[i][j];
-			for (i = 0; i < a; i++, n = 0)
-			{
-				for (j = 0; j < b; j++)
-				{
-					if (array[i][j] > 0)
-						n++;
-				}
-				if (n == a)
-					line++;
-				cout << "Number of non-zero rows = ";
-				cout << line;
-			}
-	for (i = 0; i < n; i++)
-		for (j = 0; j < m; j++)
-		{
-			if (array[i][j] > k)
-				k = array[i][j];
-		}
-	for (i = 0; i < n; i++)
-		for (j = 0; j < m; j++)
-		{
-			if (array[i][j] == k)
-				l++;
-		}
-	cout << "Max element " << l;
-	free(array);
-			
-		}
-	}
-	system("pause");
-	return 0;
-}
+    int n, a, b;
+   
+    cout << "Entes size array: a, b ";
+    cin >> a;
+    cin >> b;
+   
 
+    int **array = new int* [a];
+    for (int i = 0; i < a; i++)
+    {
+        array[i] = new int[b];
+    }
+   
+
+    for (int i = 0; i < a; i++)
+    {
+        for (int j = 0; j < b; j++)
+            cin >> array[i][j];
+    }
+   
+
+    for (int i = 0; i < a; i++)
+    {
+        for (int j = 0; j < b; j++)
+            cout << array[i][j] << " ";
+        cout << endl;
+    }
+ 
+
+    n = 0;
+    for (int i = 0; i < a; i++){
+        int counter = 0;
+        for (int j = 0; j < b; j++){
+            if (array[i][j] != 0)
+            counter++;
+        }
+        if (counter == a)
+            n++;
+    }
+   
+    cout << "Number of non-zero rows - " << n << endl;
+   
+
+    int max = -1488;
+    int temp[b*a];
+    int k = 0;
+    while (k < a*b)
+    {
+        for (int i = 0; i < b; i++)
+        for (int j = 0; j < a; j++)
+        {
+            temp[k] = array[i][j];
+            k++;
+        }
+    }
+ 
+    for (int i = 0; i < b*a; i++)
+    for (int j = i + 1; j < b*a; j++)
+    if (temp[i] == temp[j] && temp[i] > max && i != j)
+    {
+    max = temp[i];
+    }
+   
+    cout << "Max element that occurs more than once - " << max << endl;
+   
+
+    for (int i = 0; i < a; i++)
+        delete[] array[i];
+    delete [] array;
+   
+    return 0;
+}
