@@ -21,7 +21,6 @@ int main ()
 	bool average(STUDENT *stdu1, STUDENT *stdu2);
 	void advanced(STUDENT *stdu, int size);
 
-	int main ()
 	{
 		SetConsoleOutputCP(1251);
 		SetConsoleCP(1251);
