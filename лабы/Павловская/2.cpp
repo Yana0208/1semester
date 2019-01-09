@@ -1,70 +1,97 @@
 #include <iostream> 
 using namespace std; 
 
-int arr[64]; 
-
-int min_el() 
+int random(int min, int max) 
 { 
-int min = arr[0]; 
-for( int i = 1; i < 64; i++ ) 
+static bool first = true; 
+if (first) 
 { 
-if( min > arr[i] ) 
-{ 
-min = arr[i]; 
+srand(time(NULL)); 
+first = false; 
 } 
-} 
-return min; 
+return min + rand() % (max - min); 
 } 
 
-int sum() 
+int minIndex(int array[],int len) 
 { 
-int sum = 0; 
-int last; 
-int first; 
-for( int i = 0; i < 64; i++ ) 
+int res = array[0]; 
+int indexOF; 
+for(int i=0;i<len;i++) 
+if(res > array[i]) 
 { 
-if(arr[i] >= 0) 
-first = i; 
-break; 
+res = array[i]; 
+indexOF = i; 
 } 
-for( int i = 63; i >= 0; i— ) 
-{ 
-if(arr[i] >= 0) 
-last = i; 
-break; 
-} 
-for( int i = first; i <= last; i++ ) 
-{ 
-sum += arr[i]; 
-} 
-return sum; 
+return indexOF; 
 } 
 
-void sort() 
+int maxIndex(int array[],int len) 
 { 
-int buffer = 0; 
-for( int i = 0; i < 64; i++ ) 
+int res = array[0]; 
+int indexOF; 
+for(int i=0;i<len;i++) 
+if(res < array[i]) 
 { 
-if( arr[i] > arr[i+1] ) 
+res = array[i]; 
+indexOF = i; 
+} 
+return indexOF; 
+} 
+
+void sort(int arr[], int len) 
 { 
-buffer = arr[i]; 
-arr[i] = arr[i+1]; 
-arr[i+1] = buffer; 
+bool flag = true; 
+int temp; 
+int numLength = len; 
+for(int i = 1;(i<=numLength)&&flag;i++) 
+{ 
+flag = false; 
+for(int j=0; j<(numLength-1);j++) 
+{ 
+if (arr[j+1]>arr[j]) 
+{ 
+temp = arr[j]; 
+arr[j] = arr[j+1]; 
+arr[j+1] = temp; 
+flag = true; 
+} 
 } 
 } 
 } 
 
-int main() 
+int main () 
 { 
-for( int i = 63; i >= 0; i— ) 
+int size; 
+int sum_negative=0; 
+int mul_between=1; 
+cout « "Enter array size: "; 
+cin » size; 
+int arr[size]; 
+cout « "array = "; 
+for(int i=0;i<size;i++) 
 { 
-arr[i] = i*5; 
+arr[i]=random(-100,100); 
+cout « arr[i] « " "; 
+if(arr[i]<0) 
+sum_negative+=arr[i]; 
 } 
-cout « "Ñóììà:" « sum() « endl; 
-cout « "Ìèíèìàëüíîå:" « min_el() « endl; 
-for( int i = 0; i < 64; i++ ) 
-{ 
-cout « "İëåìåíò ïîä íîìåğîì " « i « " ğàâåí " « arr[i] « endl; 
-} 
+cout « endl; 
+cout « "sum of negative digits = " « sum_negative; 
+if(minIndex(arr,size)<maxIndex(arr,size)) 
+for(int j=minIndex(arr,size)+1;j<maxIndex(arr,size);j++) 
+mul_between*=arr[j]; 
+else if(minIndex(arr,size)==maxIndex(arr,size)) 
+mul_between=0; 
+else 
+for(int j=maxIndex(arr,size)+1;j<minIndex(arr,size);j++) 
+mul_between*=arr[j]; 
+cout « endl; 
+cout « "pr between indexes " « minIndex(arr,size) « " and " 
+« maxIndex(arr,size) « " = " « mul_between « endl; 
+sort(arr,size); 
+cout « "sorted array = "; 
+for(int k=0;k<size;k++) 
+cout « arr[k] « " "; 
+cout « endl; 
 return 0; 
 }
